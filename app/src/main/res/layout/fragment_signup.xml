@@ -1,0 +1,204 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:theme="@style/AppTheme"
+    tools:context="com.diy.travelers.SignupFragment">
+
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context="com.sample.foo.usingcoordinatorlayout.FabAndSnackbarActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="60dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fontFamily="sans-serif-condensed">
+
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg"
+                    app:layout_collapseMode="parallax" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/editTextFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:hint="First Name"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true" />
+
+                        <EditText
+                            android:id="@+id/editTextLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:gravity="center"
+                            android:fontFamily="sans-serif-condensed"
+                            android:hint="Last Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp"
+                            android:singleLine="true" />
+
+                        <EditText
+                            android:id="@+id/editTextCompanyName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:hint="Company Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp" />
+
+                        <EditText
+                            android:id="@+id/editTextEmailId"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="Email Id"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:gravity="center"
+                            android:paddingLeft="10dp" />
+
+                        <EditText
+                            android:id="@+id/editTextDOB"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="DOB (YYYY-MM-DD)"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="date"
+                            android:maxLines="1"
+                            android:gravity="center"
+                            android:paddingLeft="10dp" />
+
+                        <EditText
+                            android:id="@+id/editTexxtPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="Phone"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:inputType="phone"
+                            android:paddingLeft="10dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="Address 1"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center"
+                            android:inputType="textPostalAddress|textMultiLine"
+                            android:padding="10dp"
+                            android:paddingLeft="5dp" />
+
+                        <EditText
+                            android:fontFamily="sans-serif-condensed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="Address 2"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:paddingLeft="10dp" />
+
+
+                    </LinearLayout>
+                </ScrollView>
+
+                <Button
+                    android:id="@+id/submitDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/button_background"
+                    android:text="Submit"
+                    android:layout_marginBottom="10dp"/>
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/selectImageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/yellow"
+            android:src="@drawable/add_icon"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="bottom|end" />
+    </android.support.design.widget.CoordinatorLayout>
+
+</FrameLayout>
