@@ -1,11 +1,16 @@
 package com.diy.travelers;
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.diy.travelers.Fragments.VendorsFragment;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -47,6 +53,9 @@ public class Dashboard extends AppCompatActivity
     public String fb_login_response;
     ImageView userProfilePic;
     public TextView userNameText, userMailID;
+    public Boolean isfacebookLogin = false;
+    android.support.v4.app.FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -69,8 +78,26 @@ public class Dashboard extends AppCompatActivity
         userProfilePic = (ImageView) hView.findViewById(R.id.userProfilePic);
         userNameText = (TextView) hView.findViewById(R.id.userNameText);
         userMailID = (TextView) hView.findViewById(R.id.userMailID);
+        fragmentManager= this.getSupportFragmentManager();
 
-        loginThrougFacebook();
+        normalLogin();
+        /*if (isfacebookLogin) {
+            loginThrougFacebook();
+        } else {
+            normalLogin();
+        }*/
+
+        SharedPreferences sharedPref = getSharedPreferences(
+                Constants.LOGIN_SHARED_PREFRENCE,
+                Context.MODE_PRIVATE);
+
+        if (TextUtils.equals(sharedPref.getString(Constants.DB_ROLE, null), Constants.VENDOR)) {
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.vendor_menu);
+        } else if (TextUtils.equals(sharedPref.getString(Constants.DB_ROLE, null), Constants.TRAVELLER)) {
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.traveller_menu);
+        }
     }
 
     @Override
@@ -122,22 +149,17 @@ public class Dashboard extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        switch(id){
+            case R.id.vendor_list:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new VendorsFragment()).addToBackStack(null).commit();
+                break;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_logout) {
-            Intent in = new Intent(this, LoginActivity.class);
-            in.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(in);
-            LoginManager.getInstance().logOut();
+            case R.id.nav_logout:
+                Intent in = new Intent(this, LoginActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(in);
+                LoginManager.getInstance().logOut();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -145,15 +167,15 @@ public class Dashboard extends AppCompatActivity
         return true;
     }
 
-    public void loginThrougFacebook() {
+    public boolean loginThrougFacebook() {
         FacebookSdk.sdkInitialize(getApplicationContext());
-
         Intent intent = getIntent();
         if (intent != null) {
             fb_login_response = intent.getStringExtra("fb_login_response");
             email = intent.getStringExtra("email");
             picture = intent.getStringExtra("picture");
             userName = intent.getStringExtra("name");
+            isfacebookLogin = intent.getBooleanExtra("isfacebookLogin", true);
 
             try {
                 JSONObject dataObj = new JSONObject(picture);
@@ -166,8 +188,17 @@ public class Dashboard extends AppCompatActivity
             }
             userNameText.setText(userName);
             userMailID.setText(email);
-
             Picasso.with(this).load(profilePicURL).into(userProfilePic);
         }
+        return true;
+    }
+
+    public void normalLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.LOGIN_SHARED_PREFRENCE, MODE_PRIVATE);
+        String name = sharedPreferences.getString(Constants.FIRST_NAME, Constants.FIRST_NAME);
+        String userID = sharedPreferences.getString(Constants.USER_ID, Constants.USER_ID);
+        userNameText.setText(name);
+        userMailID.setText(userID);
+        //Picasso.with(this).load(profilePicURL).into(userProfilePic);
     }
 }

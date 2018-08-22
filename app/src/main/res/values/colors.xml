@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="yellow">#ffd52b</color>
     <color name="dark_yellow"> #f1c40f </color>
+    <color name="yellow2"> #FCF3CF </color>
+    <color name="yellow3"> #F9E79F </color>
     <color name="green">#07d917</color>
+    <color name="persian_green_primary"> #00a693</color>
     <color name="grey">#dcdcdc</color>
 </resources>

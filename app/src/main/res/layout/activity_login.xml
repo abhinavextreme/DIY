@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/login_background_gradient"
     tools:context="com.diy.travelers.LoginActivity">
 
     <ScrollView
@@ -16,73 +17,105 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/dimen_25dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_weight="1"
                     android:src="@drawable/diy_logo" />
 
-                <EditText
-                    android:id="@+id/email_id"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_userid"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/edit_text_background"
-                    android:drawableLeft="@drawable/login"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="sans-serif-condensed"
-                    android:gravity="center_vertical|start"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="#000"
-                    android:textColorHint="#000" />
-
-                <EditText
-                    android:id="@+id/password_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_text_background"
-                    android:drawableLeft="@drawable/password"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="sans-serif-condensed"
-                    android:gravity="center_vertical"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="#000"
-                    android:textColorHint="#000" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:background="@drawable/edit_text_background">
 
-                    <Spinner
+                    <EditText
+                        android:id="@+id/email_id"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:entries="@array/login_type"
-                        android:gravity="center"
-                        android:textColor="#000" />
-                </LinearLayout>
+                        android:layout_height="50dp"
+                        android:defaultFocusHighlightEnabled="false"
+                        android:drawableLeft="@drawable/login"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center_vertical|start"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="#000"
+                        android:textColorHint="#000" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:padding="5dp"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/red"
+                    android:background="@drawable/edit_text_background">
+
+                    <EditText
+                        android:id="@+id/password_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="5dp"
+                        android:drawableLeft="@drawable/passsword"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center_vertical|start"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="#000"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <RadioGroup
+                    android:id="@+id/selectChoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:text="Admin" />
+
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Vendor" />
+
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Traveller" />
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/login_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/button_background"
                     android:fontFamily="sans-serif-condensed"
@@ -101,20 +134,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:text="@string/forget_password"
                         android:textColor="#000"
                         android:textStyle="bold|italic" />
 
+
                     <TextView
+                        android:id="@+id/signUp_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/no_account"
+                        android:gravity="center"
+                        android:text="Signup"
+                        android:textStyle="bold"
                         android:textColor="#000" />
 
-                    <Button
+                    <!--<Button
                         android:id="@+id/signUp_btn"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
@@ -122,15 +158,15 @@
                         android:fontFamily="sans-serif-condensed"
                         android:text="Sign up"
                         android:textAllCaps="false"
-                        android:textColor="#fff" />
+                        android:textColor="#fff" />-->
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <com.facebook.login.widget.LoginButton
@@ -150,9 +186,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <!--<Button
@@ -163,7 +199,7 @@
                         android:background="@drawable/fb1" />-->
 
                     <Button
-                        android:id="@+id/gmail_login_btn"
+                        android:id="@+id/google_login_btn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_margin="5dp"

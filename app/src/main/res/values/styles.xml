@@ -19,4 +19,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.Green" parent="PayumoneyAppTheme">
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/dark_yellow</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/persian_green_primary</item>
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
 </resources>
