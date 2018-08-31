@@ -1,6 +1,8 @@
 package com.diy.travelers;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,8 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Spinner spinner;
     private RadioGroup radioGroup;
     private TextView signUp;
-    RadioButton rb;
+    RadioButton rb1, rb2;
     ResponseCallBack responseCallBack;
+    DataUtils dataUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,20 +86,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         fbLoginButton.setOnClickListener(this);
 
         radioGroup = (RadioGroup) findViewById(R.id.selectChoice);
-        radioGroup.clearCheck();
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rb = (RadioButton) group.findViewById(checkedId);
-                if (null != rb && checkedId > -1) {
-                    Toast.makeText(LoginActivity.this, rb.getText() + "", Toast.LENGTH_SHORT).show();
+                rb1 = (RadioButton) group.findViewById(R.id.vendorRadio);
+                rb2 = (RadioButton) group.findViewById(R.id.travellerRadio);
+                radioGroup.check(rb1.getId());
+                rb1.setChecked(true);
+                if (rb1.isChecked()) {
+                    rb1.setChecked(true);
+                    rb2.setChecked(false);
                 }
+
+                if (rb2.isChecked()) {
+                    rb1.setChecked(false);
+                    rb2.setChecked(true);
+                }
+
+
+                /*if (null != rb1 && checkedId > -1) {
+                    Toast.makeText(LoginActivity.this, rb1.getText() + "", Toast.LENGTH_SHORT).show();
+                }*/
             }
         });
 
-
+        dataUtils = new DataUtils(this);
     }
 
 
@@ -110,15 +125,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if (id == R.id.login_btn) {
+
             if (checkEmptyFields()) {
                 JSONObject loginObj = new JSONObject();
                 try {
                     loginObj.put("usrName", email_id.getText().toString().trim());
                     loginObj.put("password", password.getText().toString().trim());
-                    loginObj.put("lkRolePk", ((rb.getId()) + "").equals(null) ? Constants.eoVendor : (rb.getId()) + "");
+                    loginObj.put("lkRolePk", rb1.isChecked() ? "2" : "3");
 
                     Log.v("JSON_SEND", loginObj.toString());
                     RequestQueue requestQueue = NetworkServices.getInstance(this).getRequestQueue();
+                    dataUtils.showProgrssDialog();
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, ApplicationUtils.LOGIN_API, loginObj, new Response.Listener<JSONObject>() {
 
                         @Override
@@ -141,11 +158,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 editor.putString(Constants.DB_ROLE, loginResponseBean.getDbRole());
                                 editor.putString(Constants.FIRST_NAME, loginResponseBean.getFirstName());
                                 editor.putString(Constants.IS_USER_VERIFIED, String.valueOf(loginResponseBean.getIsUserVerified()));
+                                editor.putBoolean(Constants.IS_LOGGED_IN, true);
                                 editor.commit();
 
                                 Intent in = new Intent(getApplicationContext(), Dashboard.class);
                                 in.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 startActivity(in);
+
+                                dataUtils.stopProgrssDialog();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -165,6 +185,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             });
                             AlertDialog alert = builder.create();
                             alert.show();
+                            dataUtils.stopProgrssDialog();
                             return;
                         }
                     }) {
@@ -176,7 +197,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     };
                     requestQueue.add(jsonObjectRequest);
-
 
                 } catch (Exception e) {
                     e.printStackTrace();

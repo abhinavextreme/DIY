@@ -92,6 +92,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/adminRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -100,12 +101,14 @@
 
 
                     <RadioButton
+                        android:id="@+id/vendorRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Vendor" />
 
                     <RadioButton
+                        android:id="@+id/travellerRadio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

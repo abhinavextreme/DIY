@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.diy.travelers.Models.UserBean;
@@ -28,6 +27,10 @@ public class VendorsAdapter extends RecyclerView.Adapter<VendorsAdapter.ViewHold
         this.userBeanArrayList = userBeanArrayList;
     }
 
+    public VendorsAdapter(Context context, UserBean[] userBean) {
+        this.context=context;
+        this.userBean=userBean;
+    }
 
 
     @Override
@@ -39,15 +42,16 @@ public class VendorsAdapter extends RecyclerView.Adapter<VendorsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.companyName.setText(userBeanArrayList.get(position).getCompanyName());
-        holder.comapnyEmail.setText(userBeanArrayList.get(position).getPrimaryEmail());
-        holder.companyPhone.setText(userBeanArrayList.get(position).getPhone());
-        holder.ownerName.setText(userBeanArrayList.get(position).getFullName());
+
+        holder.companyName.setText(userBean[position].getCompanyName());
+        holder.comapnyEmail.setText("Email: "+userBean[position].getPrimaryEmail());
+        holder.companyPhone.setText("Contact: "+userBean[position].getPhone());
+        holder.ownerName.setText("Owner Name: "+userBean[position].getFullName());
     }
 
     @Override
     public int getItemCount() {
-        return userBeanArrayList.size();
+        return userBean.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

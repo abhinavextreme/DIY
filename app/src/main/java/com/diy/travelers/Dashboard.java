@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -56,6 +57,7 @@ public class Dashboard extends AppCompatActivity
     public Boolean isfacebookLogin = false;
     android.support.v4.app.FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    SharedPreferences sharedPref;
 
 
     @Override
@@ -87,9 +89,10 @@ public class Dashboard extends AppCompatActivity
             normalLogin();
         }*/
 
-        SharedPreferences sharedPref = getSharedPreferences(
+        sharedPref = getSharedPreferences(
                 Constants.LOGIN_SHARED_PREFRENCE,
                 Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPref.edit();
 
         if (TextUtils.equals(sharedPref.getString(Constants.DB_ROLE, null), Constants.VENDOR)) {
             navigationView.getMenu().clear();
@@ -117,8 +120,11 @@ public class Dashboard extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            finish();
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                finish();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -156,9 +162,16 @@ public class Dashboard extends AppCompatActivity
 
             case R.id.nav_logout:
                 Intent in = new Intent(this, LoginActivity.class);
-                in.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                in.setFlags( Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(in);
                 LoginManager.getInstance().logOut();
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove(Constants.IS_LOGGED_IN);
+                editor.remove(Constants.DB_ROLE);
+                editor.remove(Constants.DEVICE_TOKEN);
+                editor.remove(Constants.USER_KEY);
+                editor.remove(Constants.USER_ID);
+                editor.apply();
                 break;
         }
 
@@ -200,5 +213,10 @@ public class Dashboard extends AppCompatActivity
         userNameText.setText(name);
         userMailID.setText(userID);
         //Picasso.with(this).load(profilePicURL).into(userProfilePic);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -13,8 +13,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class DataUtils {
 
-    ProgressDialog progressDialog;
-    Context context;
+    static ProgressDialog progressDialog;
+    static Context context;
     String hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt";
 
     public DataUtils() {
@@ -42,14 +42,14 @@ public class DataUtils {
     //for calling hash in activity
     //String serverCalculatedHash= hashCal("SHA-512", hashSequence);
 
-    public void showProgrssDialog(){
+    public static void showProgrssDialog(){
         progressDialog= new ProgressDialog(context);
         progressDialog.setTitle("Processing..");
         progressDialog.setMessage("Please wait while we retrieve your data");
         progressDialog.show();
     }
 
-    public void stopProgrssDialog(){
+    public static void stopProgrssDialog(){
         progressDialog.dismiss();
         progressDialog.cancel();
     }

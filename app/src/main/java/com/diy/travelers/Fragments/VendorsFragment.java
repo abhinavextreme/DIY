@@ -1,6 +1,7 @@
 package com.diy.travelers.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.diy.travelers.Adapters.VendorsAdapter;
 import com.diy.travelers.ApplicationUtils;
 import com.diy.travelers.Models.UserBean;
 import com.diy.travelers.R;
+import com.diy.travelers.Utils.DataUtils;
 import com.diy.travelers.Utils.MyJsonArrayRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,8 +44,10 @@ public class VendorsFragment extends Fragment {
     public View rootView;
     RecyclerView vendorRecyclerView;
     Toolbar toolbar;
-    UserBean userBean;
+    UserBean[] userBean;
     ArrayList<UserBean> userBeanArrayList=null;
+    private ProgressDialog progressDialog;
+    DataUtils dataUtils;
 
     public VendorsFragment() {
         // Required empty public constructor
@@ -61,6 +65,7 @@ public class VendorsFragment extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_vendors, container, false);
         vendorRecyclerView= rootView.findViewById(R.id.allVendorRV);
+        dataUtils= new DataUtils(context);
 
        /* toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back_button);
@@ -88,33 +93,41 @@ public class VendorsFragment extends Fragment {
             e.printStackTrace();
         }
         RequestQueue requestQueue = Volley.newRequestQueue(context);
+        dataUtils.showProgrssDialog();
         MyJsonArrayRequest myJsonArrayRequest = new MyJsonArrayRequest(Request.Method.POST, ApplicationUtils.GET_VENDORS, jsonObject, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Log.v("RESPONSE", response.toString());
 
-                userBeanArrayList= new ArrayList<>();
-                for(int i=0; i<response.length(); i++){
-                    userBeanArrayList.add(userBean);
+                try {
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    userBean = gson.fromJson(String.valueOf(response), UserBean[].class);
+                    Log.v("userBean", userBean.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
-                UserBean userBean = gson.fromJson(response.toString(), UserBean.class);
-                Log.v("userBean", userBean.toString());
-
-                VendorsAdapter vendorsAdapter = new VendorsAdapter(context, userBeanArrayList);
+                VendorsAdapter vendorsAdapter = new VendorsAdapter(context, userBean);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 vendorRecyclerView.setLayoutManager(mLayoutManager);
                 vendorRecyclerView.setAdapter(vendorsAdapter);
+                dataUtils.stopProgrssDialog();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v("error", error.toString());
+                dataUtils.stopProgrssDialog();
             }
         });
         requestQueue.add(myJsonArrayRequest);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
 }

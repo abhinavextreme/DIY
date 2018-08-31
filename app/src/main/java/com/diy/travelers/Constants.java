@@ -19,6 +19,7 @@ public class Constants {
     public static final String IS_USER_VERIFIED = "isUserVerified";
     public static final String DEVICE_TOKEN = "deviceToken";
     public static final String FIRST_NAME = "firstName";
+    public static final String IS_LOGGED_IN = "isLoggedIn";
 
     //DB Roles
     public static final String VENDOR = "Vendor";
